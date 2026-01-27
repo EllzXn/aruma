@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Aruma - WAbot">
+    <meta property="og:description" content="Gabungan dari kata Arunika dan Lema. Bot simple dengan respon yang minimalis dan cepat.">
+    <meta property="og:image" content="https://files.catbox.moe/xztnie.jpeg">
+    <title>Aruma - WhatsApp Bot</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#0a0a0a',       // Hitam Matte
+                            surface: '#121212',  // Card lebih gelap
+                            border: '#2a2a2a',   // Garis halus
+                            main: '#99c4d5',     // Warna Utama (Cyan Pucat Terang)
+                            dark: '#8c98bb',     // Warna Aksen (Biru Keabuan Gelap)
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 30px -5px rgba(153, 196, 213, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body::-webkit-scrollbar { width: 4px; }
+        body::-webkit-scrollbar-track { background: #0a0a0a; }
+        body::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 10px; }
+        
+        /* Navbar Styles */
+        .nav-pill {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(140, 152, 187, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transisi Halus */
+        }
+
+        /* Class untuk menyembunyikan navbar (Fade Out ke atas) */
+        .nav-hidden {
+            transform: translateY(-150%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .nav-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-zinc-300 font-sans antialiased min-h-screen flex flex-col relative">
+
+    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <nav id="navbar" class="nav-pill nav-visible rounded-full px-6 py-3 flex items-center justify-between w-full max-w-3xl animate__animated animate__fadeInDown">
+            
+            <div class="flex items-center gap-3">
+                <img src="https://files.catbox.moe/e9mktn.jpeg" alt="Logo" class="w-8 h-8 rounded-full border border-brand-dark/30">
+                <span class="font-bold text-white tracking-wide text-sm md:text-base">
+                    ARUMA<span class="text-brand-main">.BOT</span>
+                </span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 text-xs font-medium text-zinc-400">
+                <a href="#home" class="hover:text-brand-main transition-colors">Beranda</a>
+                <a href="#access" class="hover:text-brand-main transition-colors">Akses</a>
+                <a href="#owner" class="hover:text-brand-main transition-colors">Owner</a>
+            </div>
+
+            <button onclick="toggleMenu()" class="md:hidden text-zinc-400 hover:text-white">
+                <i data-feather="menu" class="w-5 h-5"></i>
+            </button>
+        </nav>
+    </div>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-8 text-lg font-medium animate__animated animate__fadeIn">
+        <button onclick="toggleMenu()" class="absolute top-8 right-8 text-zinc-500 hover:text-white">
+            <i data-feather="x" class="w-8 h-8"></i>
+        </button>
+        <a href="#home" onclick="toggleMenu()" class="text-white hover:text-brand-main">Beranda</a>
+        <a href="#access" onclick="toggleMenu()" class="text-white hover:text-brand-main">Akses Bot</a>
+        <a href="#owner" onclick="toggleMenu()" class="text-white hover:text-brand-main">Owner</a>
+    </div>
+
+    <header id="home" class="pt-40 pb-16 px-6 text-center animate__animated animate__fadeIn relative max-w-5xl mx-auto">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-dark/20 bg-brand-surface/50 text-[10px] tracking-widest font-bold text-brand-main mb-8 uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-main animate-pulse"></span>
+            Whatsapp Multi-Device Bot
+        </div>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
+            Efisiensi Tanpa Batas <br />
+            <span class="text-brand-dark">Dalam Satu Chat.</span>
+        </h1>
+        
+        <p class="text-zinc-500 text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-12">
+            Aruma hadir dengan tampilan minimalis dan fitur esensial. Fokus pada fungsi, tanpa gangguan.
+        </p>
+
+        <div class="relative mx-auto max-w-2xl">
+            <div class="absolute -inset-0.5 bg-gradient-to-b from-brand-main to-brand-dark opacity-30 blur-xl rounded-xl"></div>
+            
+            <div class="relative rounded-xl bg-brand-bg p-1.5 border border-brand-border">
+                <img src="https://files.catbox.moe/xztnie.jpeg" alt="Aruma Thumbnail" class="rounded-lg w-full h-auto object-cover aspect-[16/9] shadow-2xl">
+            </div>
+        </div>
+    </header>
+
+    <main id="access" class="container mx-auto px-6 max-w-4xl py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <a href="https://wa.me/6285343547294?text=.menu" target="_blank" class="group relative p-6 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-main/40 transition-all duration-300">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-main">
+                        <i data-feather="message-square" class="w-5 h-5"></i>
+                    </div>
+                    <i data-feather="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-main transition-colors"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Nomor Bot</h3>
+                <p class="text-xs text-zinc-500">Mulai interaksi personal</p>
+            </a>
+
+            <a href="https://whatsapp.com/channel/0029VbCxfr389incItu94v3X" target="_blank" class="group relative p-6 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-dark/40 transition-all duration-300">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-dark">
+                        <i data-feather="rss" class="w-5 h-5"></i>
+                    </div>
+                    <i data-feather="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-dark transition-colors"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Saluran Resmi</h3>
+                <p class="text-xs text-zinc-500">Info update & maintenance</p>
+            </a>
+
+            <a href="https://chat.whatsapp.com/F0HtczjzlsNCGnBvUCS00e" target="_blank" class="group relative p-6 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-main/40 transition-all duration-300">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-main">
+                        <i data-feather="users" class="w-5 h-5"></i>
+                    </div>
+                    <i data-feather="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-main transition-colors"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Komunitas</h3>
+                <p class="text-xs text-zinc-500">Diskusi antar pengguna</p>
+            </a>
+
+            <a href="https://github.com/alip-jmbd/Majotabi-WAbot" target="_blank" class="group relative p-6 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-dark/40 transition-all duration-300">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-dark">
+                        <i data-feather="code" class="w-5 h-5"></i>
+                    </div>
+                    <i data-feather="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-dark transition-colors"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Source Code</h3>
+                <p class="text-xs text-zinc-500">Script & Dokumentasi</p>
+            </a>
+            
+        </div>
+    </main>
+
+    <section id="owner" class="container mx-auto px-6 max-w-2xl pb-20">
+        <div class="border-t border-brand-border pt-12 text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-brand-surface border border-brand-border p-1 mb-4">
+                <img src="https://files.catbox.moe/rjvrgt.png" alt="Owner" class="w-full h-full rounded-full object-cover opacity-100">
+            </div>
+            <p class="text-xs font-bold text-brand-dark tracking-widest mb-2">DEVELOPER</p>
+            <h3 class="text-xl font-bold text-white mb-6">EllzXn.</h3>
+            
+            <a href="https://wa.me/62882019632673" class="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-brand-border bg-transparent text-xs font-medium text-zinc-400 hover:text-white hover:border-brand-main transition-all hover:bg-brand-surface">
+                <span>Hubungi via WhatsApp</span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center border-t border-brand-border bg-brand-bg">
+        <p class="text-[10px] text-zinc-600 uppercase tracking-widest">&copy; 2026 Aruma Bot Project.</p>
+    </footer>
+
+    <script>
+        feather.replace();
+
+        // --- Logic Menu Mobile ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+                document.body.style.overflow = 'auto'; 
+            }
+        }
+
+        // --- Logic Scroll Navbar (Fade Out / Fade In) ---
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Jika scroll lebih dari 50px (menghindari trigger saat masih paling atas)
+            if (scrollTop > 50) {
+                if (scrollTop > lastScrollTop) {
+                    // Scroll ke Bawah -> Hide Navbar (Fade Out)
+                    navbar.classList.add('nav-hidden');
+                    navbar.classList.remove('nav-visible');
+                } else {
+                    // Scroll ke Atas -> Show Navbar (Fade In)
+                    navbar.classList.remove('nav-hidden');
+                    navbar.classList.add('nav-visible');
+                }
+            } else {
+                // Posisi paling atas -> Selalu Show
+                navbar.classList.remove('nav-hidden');
+                navbar.classList.add('nav-visible');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+        }, false);
+    </script>
+</body>
+</html>      
