@@ -10,30 +10,34 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        sans: ['Geist', 'system-ui', 'sans-serif'],
+                        serif: ['"Instrument Serif"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            bg: '#0a0a0a',
-                            surface: '#121212',
-                            border: '#2a2a2a',
-                            main: '#99c4d5',
-                            dark: '#8c98bb',
-                        }
+                        ink: {
+                            900: '#252525',
+                            700: '#4a4a4a',
+                            500: '#7a7a7a',
+                            300: '#b8b8b8',
+                            100: '#ececec',
+                            50:  '#f6f5f2',
+                        },
+                        paper: '#ffffff',
                     },
-                    boxShadow: {
-                        'glow': '0 0 30px -5px rgba(153, 196, 213, 0.15)',
+                    letterSpacing: {
+                        'tightest': '-0.045em',
                     }
                 }
             }
@@ -41,191 +45,190 @@
     </script>
 
     <style>
-        body::-webkit-scrollbar { width: 4px; }
-        body::-webkit-scrollbar-track { background: #0a0a0a; }
-        body::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 10px; }
+        html, body { background: #ffffff; }
+        body::-webkit-scrollbar { width: 5px; }
+        body::-webkit-scrollbar-track { background: #ffffff; }
+        body::-webkit-scrollbar-thumb { background: #ececec; border-radius: 10px; }
+        body::-webkit-scrollbar-thumb:hover { background: #252525; }
+        ::selection { background: #252525; color: #ffffff; }
+
+        .serif-italic { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; }
 
         .nav-pill {
-            background: rgba(18, 18, 18, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(140, 152, 187, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: saturate(140%) blur(14px);
+            -webkit-backdrop-filter: saturate(140%) blur(14px);
+            border: 1px solid rgba(37, 37, 37, 0.08);
+            transition: transform .45s cubic-bezier(0.22,1,0.36,1), opacity .35s ease;
         }
+        .nav-hidden { transform: translateY(-160%); opacity: 0; pointer-events: none; }
+        .nav-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-        .nav-hidden {
-            transform: translateY(-150%);
-            opacity: 0;
-            pointer-events: none;
-        }
+        .reveal { opacity: 0; transform: translateY(10px); transition: opacity .8s ease, transform .8s cubic-bezier(0.22,1,0.36,1); }
+        .reveal.in { opacity: 1; transform: translateY(0); }
 
-        .nav-visible {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .link-row .arrow { transition: transform .35s cubic-bezier(0.22,1,0.36,1); }
+        .link-row:hover .arrow { transform: translate(4px, -4px); }
+
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+        .dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+        a, button { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
-<body class="bg-brand-bg text-zinc-300 font-sans antialiased min-h-screen flex flex-col relative">
+<body class="bg-paper text-ink-900 font-sans antialiased min-h-screen flex flex-col">
 
-    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-        <nav id="navbar" class="nav-pill nav-visible rounded-full px-6 py-3 flex items-center justify-between w-full max-w-3xl animate__animated animate__fadeInDown">
-            <div class="flex items-center gap-3">
-                <img src="https://files.catbox.moe/e9mktn.jpeg" alt="Logo" class="w-8 h-8 rounded-full border border-brand-dark/30">
-            </div>
-            
-            <div class="font-bold text-white tracking-wide text-sm md:text-base">
-                ARUMA<span class="text-brand-main">.BOT</span>
+    <!-- NAVBAR -->
+    <div class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+        <nav id="navbar" data-testid="site-navbar" class="nav-pill nav-visible rounded-full pl-2.5 pr-4 py-2 flex items-center justify-between w-full max-w-md">
+            <div class="flex items-center gap-2.5">
+                <img src="https://files.catbox.moe/fphu0a.jpeg" alt="Abigail" class="w-7 h-7 rounded-full object-cover ring-1 ring-ink-100">
+                <div class="flex items-baseline gap-1">
+                    <span class="font-medium tracking-tight text-[14px] text-ink-900">Abigail</span>
+                    <span class="serif-italic text-ink-500 text-[14px] leading-none">WAbot</span>
+                </div>
             </div>
         </nav>
     </div>
 
-    <header id="home" class="pt-40 pb-16 px-6 text-center animate__animated animate__fadeIn relative max-w-5xl mx-auto">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-dark/20 bg-brand-surface/50 text-[10px] tracking-widest font-bold text-brand-main mb-8 uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-brand-main animate-pulse"></span>
-            Whatsapp Multi-Device Bot
-        </div>
+    <!-- HERO -->
+    <header id="home" class="pt-28 md:pt-32 pb-10 px-6 max-w-3xl mx-auto w-full">
 
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-            Efisiensi Tanpa Batas <br />
-            <span class="text-brand-dark">Dalam Satu Chat.</span>
+        <h1 class="text-5xl md:text-7xl leading-[0.95] tracking-tightest font-medium text-ink-900 mb-6 reveal">
+            Minimalist<br>
+            <span class="serif-italic text-ink-700">& Fast Responses.</span>
         </h1>
 
-        <p class="text-zinc-500 text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-12">
-            Aruma hadir dengan tampilan minimalis dan fitur esensial. Fokus pada fungsi, tanpa gangguan.
+        <p class="text-ink-500 text-[15px] md:text-base leading-relaxed max-w-md reveal">
+            Fokus pada fungsi, tanpa basa basi.
         </p>
 
-        <div class="relative mx-auto max-w-2xl">
-            <div class="absolute -inset-0.5 bg-gradient-to-b from-brand-main to-brand-dark opacity-30 blur-xl rounded-xl"></div>
-            <div class="relative rounded-xl bg-brand-bg p-1.5 border border-brand-border">
-                <img src="https://files.catbox.moe/xztnie.jpeg" alt="Aruma Thumbnail" class="rounded-lg w-full h-auto object-cover aspect-[16/9] shadow-2xl">
-            </div>
+        <div class="mt-8 flex items-center gap-4 reveal">
+            <a href="https://wa.me/6285343547294?text=.menu" target="_blank" data-testid="hero-cta-start" class="inline-flex items-center gap-2 bg-ink-900 text-paper text-sm rounded-full pl-4 pr-3 py-2 hover:bg-ink-700 transition-colors">
+                Get Started
+                <span class="w-5 h-5 rounded-full bg-paper/15 flex items-center justify-center">
+                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </span>
+            </a>
         </div>
     </header>
 
-    <main id="access" class="container mx-auto px-6 max-w-3xl py-12">
-        <div class="flex flex-col gap-4">
+    <!-- ACCESS LIST -->
+    <main id="access" class="max-w-3xl w-full mx-auto px-6 py-10 md:py-14">
+        <h2 class="text-[11px] font-mono uppercase tracking-[0.22em] text-ink-500 mb-4 reveal">Akses</h2>
 
-            <a href="https://wa.me/6285343547294?text=.menu" target="_blank" class="group flex items-center gap-5 p-5 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-main/40 transition-all duration-300">
-                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-main">
-                    <i data-feather="message-square" class="w-6 h-6"></i>
+        <div class="border-t border-ink-100 reveal">
+
+            <a href="https://wa.me/6285343547294?text=.menu" target="_blank" data-testid="link-bot-number" class="link-row flex items-center gap-4 py-4 border-b border-ink-100 hover:bg-ink-50/60 -mx-3 px-3 rounded-md transition-colors">
+                <i data-lucide="message-square" class="w-4 h-4 text-ink-900 shrink-0"></i>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-medium tracking-tight text-ink-900 leading-tight">Nomor bot</h3>
+                    <p class="text-xs text-ink-500 mt-0.5">Ketik <span class="font-mono text-ink-900">.menu</span> untuk memulai</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-0.5">Nomor Bot</h3>
-                    <p class="text-xs md:text-sm text-zinc-500">Mulai interaksi personal</p>
-                </div>
-                <div class="ml-auto">
-                    <i data-feather="chevron-right" class="w-5 h-5 text-zinc-600 group-hover:text-brand-main transition-colors"></i>
-                </div>
+                <i data-lucide="arrow-up-right" class="arrow w-4 h-4 text-ink-500 shrink-0"></i>
             </a>
 
-            <a href="https://whatsapp.com/channel/0029VbCxfr389incItu94v3X" target="_blank" class="group flex items-center gap-5 p-5 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-dark/40 transition-all duration-300">
-                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-dark">
-                    <i data-feather="rss" class="w-6 h-6"></i>
+            <a href="https://whatsapp.com/channel/0029VbCxfr389incItu94v3X" target="_blank" data-testid="link-channel" class="link-row flex items-center gap-4 py-4 border-b border-ink-100 hover:bg-ink-50/60 -mx-3 px-3 rounded-md transition-colors">
+                <i data-lucide="radio" class="w-4 h-4 text-ink-900 shrink-0"></i>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-medium tracking-tight text-ink-900 leading-tight">Saluran</h3>
+                    <p class="text-xs text-ink-500 mt-0.5">Info update dan maintenance</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-0.5">Saluran Resmi</h3>
-                    <p class="text-xs md:text-sm text-zinc-500">Info update & maintenance</p>
-                </div>
-                <div class="ml-auto">
-                    <i data-feather="chevron-right" class="w-5 h-5 text-zinc-600 group-hover:text-brand-dark transition-colors"></i>
-                </div>
+                <i data-lucide="arrow-up-right" class="arrow w-4 h-4 text-ink-500 shrink-0"></i>
             </a>
 
-            <a href="https://chat.whatsapp.com/F0HtczjzlsNCGnBvUCS00e" target="_blank" class="group flex items-center gap-5 p-5 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-main/40 transition-all duration-300">
-                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-main">
-                    <i data-feather="users" class="w-6 h-6"></i>
+            <a href="https://chat.whatsapp.com/F0HtczjzlsNCGnBvUCS00e" target="_blank" data-testid="link-community" class="link-row flex items-center gap-4 py-4 border-b border-ink-100 hover:bg-ink-50/60 -mx-3 px-3 rounded-md transition-colors">
+                <i data-lucide="users" class="w-4 h-4 text-ink-900 shrink-0"></i>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-medium tracking-tight text-ink-900 leading-tight">Komunitas</h3>
+                    <p class="text-xs text-ink-500 mt-0.5">Ngobrol sesama user</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-0.5">Komunitas</h3>
-                    <p class="text-xs md:text-sm text-zinc-500">Diskusi antar pengguna</p>
-                </div>
-                <div class="ml-auto">
-                    <i data-feather="chevron-right" class="w-5 h-5 text-zinc-600 group-hover:text-brand-main transition-colors"></i>
-                </div>
+                <i data-lucide="arrow-up-right" class="arrow w-4 h-4 text-ink-500 shrink-0"></i>
             </a>
 
-            <a href="https://github.com/alip-jmbd/Majotabi-WAbot" target="_blank" class="group flex items-center gap-5 p-5 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-brand-dark/40 transition-all duration-300">
-                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-brand-dark">
-                    <i data-feather="code" class="w-6 h-6"></i>
+            <a href="https://github.com/alip-jmbd/Majotabi-WAbot" target="_blank" data-testid="link-source" class="link-row flex items-center gap-4 py-4 border-b border-ink-100 hover:bg-ink-50/60 -mx-3 px-3 rounded-md transition-colors">
+                <i data-lucide="code-xml" class="w-4 h-4 text-ink-900 shrink-0"></i>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-medium tracking-tight text-ink-900 leading-tight">Source code</h3>
+                    <p class="text-xs text-ink-500 mt-0.5">Repositori dan dokumentasi</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-0.5">Source Code</h3>
-                    <p class="text-xs md:text-sm text-zinc-500">Script & Dokumentasi</p>
-                </div>
-                <div class="ml-auto">
-                    <i data-feather="chevron-right" class="w-5 h-5 text-zinc-600 group-hover:text-brand-dark transition-colors"></i>
-                </div>
+                <i data-lucide="arrow-up-right" class="arrow w-4 h-4 text-ink-500 shrink-0"></i>
             </a>
 
-            <a href="https://saweria.co/ellzxn" target="_blank" class="group flex items-center gap-5 p-5 bg-brand-surface/40 hover:bg-brand-surface rounded-2xl border border-brand-border hover:border-yellow-500/40 transition-all duration-300">
-                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border text-yellow-500">
-                    <i data-feather="coffee" class="w-6 h-6"></i>
+            <a href="https://saweria.co/ellzxn" target="_blank" data-testid="link-support" class="link-row flex items-center gap-4 py-4 border-b border-ink-100 hover:bg-ink-50/60 -mx-3 px-3 rounded-md transition-colors">
+                <i data-lucide="coffee" class="w-4 h-4 text-ink-900 shrink-0"></i>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-medium tracking-tight text-ink-900 leading-tight">Donasi</h3>
+                    <p class="text-xs text-ink-500 mt-0.5">Dukung lewat Saweria</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-0.5">Dukungan</h3>
-                    <p class="text-xs md:text-sm text-zinc-500">Traktir kopi via Saweria</p>
-                </div>
-                <div class="ml-auto">
-                    <i data-feather="chevron-right" class="w-5 h-5 text-zinc-600 group-hover:text-yellow-500 transition-colors"></i>
-                </div>
+                <i data-lucide="arrow-up-right" class="arrow w-4 h-4 text-ink-500 shrink-0"></i>
             </a>
 
         </div>
 
-        <div class="mt-12 pt-8 border-t border-brand-border">
-            <h4 class="text-center text-xs font-bold text-zinc-600 tracking-widest uppercase mb-6">System Information</h4>
-            <div class="flex flex-wrap justify-center gap-3">
-                <div class="px-4 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono text-zinc-400">
-                    <span class="text-brand-main">API:</span>Siputzx, ETzY & Abigail
+        <!-- Info sistem — definition list (tidak akan terpotong) -->
+        <div class="mt-10 reveal">
+            <h2 class="text-[11px] font-mono uppercase tracking-[0.22em] text-ink-500 mb-4">Info</h2>
+            <dl class="border-t border-ink-100">
+                <div class="flex items-start justify-between gap-6 py-3 border-b border-ink-100">
+                    <dt class="text-[11px] font-mono uppercase tracking-widest text-ink-500 shrink-0 pt-0.5">API</dt>
+                    <dd class="text-[14px] text-ink-900 text-right">Siputzx, ETzY, Abigail, Deline</dd>
                 </div>
-                <div class="px-4 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono text-zinc-400">
-                    <span class="text-brand-main">HOST:</span>Deline Cloud
+                <div class="flex items-start justify-between gap-6 py-3 border-b border-ink-100">
+                    <dt class="text-[11px] font-mono uppercase tracking-widest text-ink-500 shrink-0 pt-0.5">Host</dt>
+                    <dd class="text-[14px] text-ink-900 text-right">Deline Cloud</dd>
                 </div>
-                <div class="px-4 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono text-zinc-400">
-                    <span class="text-brand-main">TYPE:</span>Plugins ESM
+                <div class="flex items-start justify-between gap-6 py-3 border-b border-ink-100">
+                    <dt class="text-[11px] font-mono uppercase tracking-widest text-ink-500 shrink-0 pt-0.5">Type</dt>
+                    <dd class="text-[14px] text-ink-900 text-right">Plugins <span class="serif-italic text-ink-700">ESM</span></dd>
                 </div>
-            </div>
+            </dl>
         </div>
     </main>
 
-    <section id="owner" class="container mx-auto px-6 max-w-2xl pb-20">
-        <div class="border-t border-brand-border pt-12 text-center">
-            
-            <div class="w-28 h-28 mx-auto rounded-full bg-brand-surface border border-brand-border p-1.5 mb-5 shadow-2xl shadow-brand-dark/10">
-                <img src="https://files.catbox.moe/rjvrgt.png" alt="Owner" class="w-full h-full rounded-full object-cover opacity-100">
+    <!-- AUTHOR -->
+    <section id="owner" class="max-w-3xl w-full mx-auto px-6 py-10 md:py-14">
+        <div class="flex items-center gap-4 reveal">
+            <img src="https://files.catbox.moe/rjvrgt.png" alt="EllzXn" class="w-14 h-14 rounded-full object-cover ring-1 ring-ink-100 shrink-0">
+            <div class="flex-1 min-w-0">
+                <p class="text-[10px] font-mono uppercase ttracking-widest text-ink-500 mb-1">Developer</p>
+                <h3 class="text-xl font-medium tracking-tight text-ink-900 leading-none">
+                    Ell<span class="serif-italic text-ink-700">z</span>Xn
+                </h3>
             </div>
-            
-            <p class="text-xs font-bold text-brand-dark tracking-widest mb-2">DEVELOPER</p>
-            <h3 class="text-2xl font-bold text-white mb-8">EllzXn</h3>
-
-            <div class="flex justify-center gap-5">
-                <a href="https://wa.me/62882019632673" target="_blank" class="w-14 h-14 flex items-center justify-center rounded-full border border-brand-border bg-brand-surface text-zinc-400 hover:text-white hover:border-brand-main transition-colors">
-                    <i data-feather="message-circle" class="w-6 h-6"></i>
+            <div class="flex items-center gap-2">
+                <a href="https://wa.me/62882019632673" target="_blank" data-testid="owner-whatsapp" aria-label="WhatsApp" class="w-9 h-9 rounded-full border border-ink-100 hover:border-ink-900 hover:bg-ink-900 hover:text-paper text-ink-900 flex items-center justify-center transition-colors">
+                    <!-- inline WhatsApp icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01a1.1 1.1 0 0 0-.795.372c-.273.298-1.042 1.019-1.042 2.486 0 1.467 1.067 2.885 1.216 3.083.149.198 2.1 3.2 5.088 4.487.712.307 1.267.489 1.7.626.714.227 1.365.195 1.879.118.573-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 22a9.94 9.94 0 0 1-5.058-1.385L2 22l1.421-4.855A9.949 9.949 0 0 1 2.06 12C2.06 6.477 6.527 2 12.05 2c2.652 0 5.148 1.037 7.023 2.921A9.884 9.884 0 0 1 22 12.05C22 17.577 17.573 22 12.05 22z"/>
+                    </svg>
                 </a>
-                <a href="https://github.com/ellzxn" target="_blank" class="w-14 h-14 flex items-center justify-center rounded-full border border-brand-border bg-brand-surface text-zinc-400 hover:text-white hover:border-brand-main transition-colors">
-                    <i data-feather="github" class="w-6 h-6"></i>
+                <a href="https://github.com/EllzXn" target="_blank" data-testid="owner-github" aria-label="GitHub" class="w-9 h-9 rounded-full border border-ink-100 hover:border-ink-900 hover:bg-ink-900 hover:text-paper text-ink-900 flex items-center justify-center transition-colors">
+                    <!-- inline GitHub icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.26 5.69.41.35.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.15 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                    </svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <footer class="py-8 text-center border-t border-brand-border bg-brand-bg">
-        <p class="text-[10px] text-zinc-600 uppercase tracking-widest">&copy; 2026 Aruma Bot Project.</p>
+    <!-- FOOTER -->
+    <footer class="mt-auto py-6 border-t border-ink-100">
+        <div class="max-w-3xl w-full mx-auto px-6 flex items-center justify-between">
+            <p class="text-[10px] font-mono uppercase tracking-widest text-ink-500">© 2026 Abigail</p>
+        </div>
     </footer>
 
     <script>
-        feather.replace();
+        if (window.lucide) { lucide.createIcons(); }
 
         let lastScrollTop = 0;
         const navbar = document.getElementById('navbar');
-
         window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-            if (scrollTop > 50) {
-                if (scrollTop > lastScrollTop) {
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            if (st > 50) {
+                if (st > lastScrollTop) {
                     navbar.classList.add('nav-hidden');
                     navbar.classList.remove('nav-visible');
                 } else {
@@ -236,9 +239,18 @@
                 navbar.classList.remove('nav-hidden');
                 navbar.classList.add('nav-visible');
             }
+            lastScrollTop = st <= 0 ? 0 : st;
+        }, { passive: true });
 
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        }, false);
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     </script>
 </body>
 </html>
